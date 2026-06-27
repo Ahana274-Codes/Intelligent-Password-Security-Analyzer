@@ -25,7 +25,6 @@ This production-grade platform evaluates password vulnerabilities using a hybrid
 # Initialize the ML Inference Engine safely
 @st.cache_resource
 def load_engine():
-    # Points to the model folder we populated earlier
     model_path = os.path.join(
         os.path.dirname(__file__), "..", "models", "password_model.pkl"
     )
@@ -54,7 +53,6 @@ user_input = st.text_input(
 if user_input:
     prediction = engine.predict_strength(user_input)
 
-    # Visual UI/UX status indicators based on classification outputs
     if prediction.lower() == "high" or prediction.lower() == "strong":
         st.success(f"System Status: STRONG Password Tier")
     elif prediction.lower() == "medium":
@@ -70,9 +68,10 @@ st.caption(
     "Simulate passing a batch of credentials through a parallel security audit layer to test thread scheduling latency."
 )
 
+# CLEANED: Removed the specific reference to Google from the list here
 batch_input = st.text_area(
     "Enter multiple passwords (one per line) to process concurrently:",
-    value="123456\nAhanaArora27\nGoogle_Intern_2027!\npassword\nSecure#992!",
+    value="123456\nAhanaArora27\nSecure#992!\npassword\nSystem_Admin_2026!",
 )
 
 if st.button("Execute Parallel Audit"):
@@ -87,7 +86,6 @@ if st.button("Execute Parallel Audit"):
 
         st.success("Multi-threaded task scheduling complete.")
 
-        # Display the parallel processed metrics elegantly in a data frame layout
         st.write("### Thread Audit Results Logs")
         st.json(audit_results)
     else:
