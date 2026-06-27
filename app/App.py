@@ -90,23 +90,25 @@ user_input = st.text_input(
 )
 
 # This logic runs automatically every time the input changes
+# Live Prediction (updates on every keystroke)
+status_placeholder = st.empty()
+
 if user_input:
     prediction = engine.predict_strength(user_input)
 
-    # We use a column or status container to show the real-time strength
-    if prediction.lower() in ["high", "strong"]:
-        st.success(f"System Status: STRONG Password Tier")
-    elif prediction.lower() == "medium":
-        st.warning(f"System Status: MEDIUM Password Tier")
+    prediction = prediction.strip().lower()
+
+    if prediction in ["strong", "high"]:
+        status_placeholder.success("🟢 System Status: STRONG Password Tier")
+
+    elif prediction == "medium":
+        status_placeholder.warning("🟡 System Status: MEDIUM Password Tier")
+
     else:
-        st.error(f"System Status: WEAK Password Tier")
+        status_placeholder.error("🔴 System Status: WEAK Password Tier")
+
 else:
-    st.info("Start typing a password to see live strength evaluation.")
-# --- UI Component 2: High-Performance Concurrent Security Audit ---
-st.subheader("2. Multi-threaded System Breach Audit")
-st.caption(
-    "Simulate passing a batch of credentials through a parallel security audit layer to test thread scheduling latency."
-)
+    status_placeholder.info("Start typing a password...")
 
 # CLEANED: Removed the specific reference to Google from the list here
 batch_input = st.text_area(
