@@ -84,32 +84,31 @@ except Exception as e:
 # --- UI Component 1: Live Machine Learning Inference ---
 st.subheader("1. Live ML Strength Prediction")
 
-# This creates an input that triggers a refresh on every single keystroke
 user_input = st.text_input(
-    "Enter a test password to analyze:", type="password", key="live_input"
+    "Enter a test password to analyze:",
+    type="password",
+    key="live_input",
+    autocomplete="off",
 )
 
-# This logic runs automatically every time the input changes
-# Live Prediction (updates on every keystroke)
-status_placeholder = st.empty()
+status = st.empty()
 
 if user_input:
-    prediction = engine.predict_strength(user_input)
 
+    prediction = engine.predict_strength(user_input)
     prediction = prediction.strip().lower()
 
-    if prediction in ["strong", "high"]:
-        status_placeholder.success("🟢 System Status: STRONG Password Tier")
+    if prediction in ["high", "strong"]:
+        status.success("🟢 Strong Password")
 
     elif prediction == "medium":
-        status_placeholder.warning("🟡 System Status: MEDIUM Password Tier")
+        status.warning("🟡 Medium Password")
 
     else:
-        status_placeholder.error("🔴 System Status: WEAK Password Tier")
+        status.error("🔴 Weak Password")
 
 else:
-    status_placeholder.info("Start typing a password...")
-
+    status.info("Start typing a password...")
 # CLEANED: Removed the specific reference to Google from the list here
 batch_input = st.text_area(
     "Enter multiple passwords (one per line) to process concurrently:",
