@@ -83,36 +83,22 @@ except Exception as e:
 
 # --- UI Component 1: Live Machine Learning Inference ---
 st.subheader("1. Live ML Strength Prediction")
-
-# This empty container will hold our dynamic status messages
-status_area = st.empty()
-
-
-# This is the function that runs on every keystroke
-def evaluate_password():
-    password = st.session_state.live_input
-    if not password:
-        status_area.empty()
-        return
-
-    prediction = engine.predict_strength(password)
-
-    with status_area.container():
-        if prediction.lower() in ["high", "strong"]:
-            st.success(f"System Status: STRONG Password Tier")
-        elif prediction.lower() == "medium":
-            st.warning(f"System Status: MEDIUM Password Tier")
-        else:
-            st.error(f"System Status: WEAK Password Tier")
-
-
-# We add 'on_change=evaluate_password' to the input widget
 user_input = st.text_input(
-    "Enter a test password to analyze:",
-    type="password",
-    key="live_input",
-    on_change=evaluate_password,
+    "Enter a test password to analyze:", type="password", key="live_input"
 )
+
+if user_input:
+    prediction = engine.predict_strength(user_input)
+
+    if prediction.lower() == "high" or prediction.lower() == "strong":
+        st.success(f"System Status: STRONG Password Tier")
+    elif prediction.lower() == "medium":
+        st.warning(f"System Status: MEDIUM Password Tier")
+    else:
+        st.error(f"System Status: WEAK Password Tier")
+
+st.divider()
+
 # --- UI Component 2: High-Performance Concurrent Security Audit ---
 st.subheader("2. Multi-threaded System Breach Audit")
 st.caption(
