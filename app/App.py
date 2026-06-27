@@ -11,10 +11,12 @@ from src.Breach_Checker import ConcurrentBreachChecker
 
 # Page Configuration for a clean, modern aesthetic
 st.set_page_config(
-    page_title="Intelligent Password Security Suite", page_icon="🛡️", layout="centered"
+    page_title="Intelligent Password Security Analyzer",
+    page_icon="🛡️",
+    layout="centered",
 )
 
-st.title("Intelligent Password Security Suite")
+st.title("Intelligent Password Security Analyzer")
 st.markdown("""
 This production-grade platform evaluates password vulnerabilities using a hybrid architecture:
 1. **Machine Learning Layer:** Predicts strength tier via an optimized Logistic Regression classifier.
