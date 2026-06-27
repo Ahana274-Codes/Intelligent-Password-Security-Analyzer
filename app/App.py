@@ -82,33 +82,47 @@ except Exception as e:
     st.stop()
 
 # --- UI Component 1: Live Machine Learning Inference ---
+# --- UI Component 1: Live Machine Learning Inference ---
 st.subheader("1. Live ML Strength Prediction")
 
 user_input = st.text_input(
-    "Enter a test password to analyze:",
-    type="password",
-    key="live_input",
-    autocomplete="off",
+    "Enter a test password to analyze:", type="password", key="live_input"
 )
 
-status = st.empty()
+status_area = st.empty()
 
 if user_input:
 
     prediction = engine.predict_strength(user_input)
     prediction = prediction.strip().lower()
 
-    if prediction in ["high", "strong"]:
-        status.success("🟢 Strong Password")
+    with status_area.container():
 
-    elif prediction == "medium":
-        status.warning("🟡 Medium Password")
+        if prediction in ["high", "strong"]:
+            st.success("🟢 System Status: STRONG Password Tier")
 
-    else:
-        status.error("🔴 Weak Password")
+        elif prediction == "medium":
+            st.warning("🟡 System Status: MEDIUM Password Tier")
+
+        else:
+            st.error("🔴 System Status: WEAK Password Tier")
 
 else:
-    status.info("Start typing a password...")
+    status_area.info("Start typing a password...")
+
+# We add 'on_change=evaluate_password' to the input widget
+user_input = st.text_input(
+    "Enter a test password to analyze:",
+    type="password",
+    key="live_input",
+    on_change=evaluate_password,
+)
+# --- UI Component 2: High-Performance Concurrent Security Audit ---
+st.subheader("2. Multi-threaded System Breach Audit")
+st.caption(
+    "Simulate passing a batch of credentials through a parallel security audit layer to test thread scheduling latency."
+)
+
 # CLEANED: Removed the specific reference to Google from the list here
 batch_input = st.text_area(
     "Enter multiple passwords (one per line) to process concurrently:",
