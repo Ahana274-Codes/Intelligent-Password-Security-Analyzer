@@ -1,0 +1,12 @@
+# Hide data and models
+Data/
+models/password_model.pkl
+
+# Hide training scripts
+src/Train.py
+
+# Hide Python cache and environments
+.venv/
+venv/
+**/__pycache__/
+*.pyc
