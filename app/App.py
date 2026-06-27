@@ -1,3 +1,38 @@
+import streamlit as st
+import requests
+
+try:
+    # 1. THE INSPECTION
+    # The code looks up at the browser's address bar to see the website name.
+    # If your app is running live, it might see "my-cool-app.streamlit.app".
+    current_host = st.context.headers.get("Host", "unknown")
+
+    # 2. YOUR HOME ADDRESS
+    # You hardcode your actual, official website URL here.
+    # This is the ONLY address that is allowed to run your code.
+    my_official_url = "https://intelligent-password-security-analyzer-ewwvyq9fytcnujqjmqrxkn.streamlit.app/"
+
+    # 3. THE SECURITY CHECK
+    # The code compares: Is the current website address DIFFERENT from my official address?
+    # (We also check 'localhost' so it doesn't trigger alerts while you are developing it at home).
+    if my_official_url not in current_host and current_host != "localhost":
+
+        # 4. THE TRAP (Your Webhook Link)
+        # If the address doesn't match, it means a thief has copied your code
+        # and hosted it on THEIR website. This is your secret tracking link.
+        canary_url = " https://webhook.site/7c6235ff-9af5-45e3-93eb-ae77141b2aa4"
+
+        # 5. THE SILENT ALARM
+        # The code sends a secret background ping to your Webhook dashboard.
+        # It attaches the thief's website name (?unauthorized_domain=...) to the alert.
+        requests.get(f"{canary_url}?unauthorized_domain={current_host}", timeout=2)
+
+except:
+    # 6. THE ALIBI
+    # If anything goes wrong (like no internet or a typo), the code just quits silently.
+    # The application keeps running normally so the thief has absolutely no idea they were caught.
+    pass
+
 # app/App.py
 import os
 import sys
