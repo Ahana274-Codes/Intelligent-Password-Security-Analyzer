@@ -83,21 +83,29 @@ except Exception as e:
 
 # --- UI Component 1: Live Machine Learning Inference ---
 st.subheader("1. Live ML Strength Prediction")
+
+# Adding an empty container so the results appear right below the input box
+result_placeholder = st.empty()
+
 user_input = st.text_input(
     "Enter a test password to analyze:", type="password", key="live_input"
 )
 
+# This block now runs EVERY time the user types a character
 if user_input:
     prediction = engine.predict_strength(user_input)
 
-    if prediction.lower() == "high" or prediction.lower() == "strong":
-        st.success(f"System Status: STRONG Password Tier")
-    elif prediction.lower() == "medium":
-        st.warning(f"System Status: MEDIUM Password Tier")
-    else:
-        st.error(f"System Status: WEAK Password Tier")
-
-st.divider()
+    # We use the placeholder to update the result dynamically
+    with result_placeholder.container():
+        if prediction.lower() in ["high", "strong"]:
+            st.success(f"System Status: STRONG Password Tier")
+        elif prediction.lower() == "medium":
+            st.warning(f"System Status: MEDIUM Password Tier")
+        else:
+            st.error(f"System Status: WEAK Password Tier")
+else:
+    # This clears the result if the input box is empty
+    result_placeholder.empty()
 
 # --- UI Component 2: High-Performance Concurrent Security Audit ---
 st.subheader("2. Multi-threaded System Breach Audit")
