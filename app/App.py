@@ -75,8 +75,7 @@ def load_engine():
         os.path.dirname(__file__), "..", "Data", "passwords_featured.csv"
     )
     return PasswordInferenceEngine(
-        model_relative_path=str(model_path)
-        data_relative_path=str(data_path)
+        model_relative_path=str(model_path), data_relative_path=str(data_path)
     )
 
 
