@@ -37,6 +37,15 @@ except:
 import os
 import sys
 import streamlit as st
+from pathlib import Path
+
+# Add the project root to sys.path so 'src' is discoverable
+root_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(root_dir))
+
+# Now import the modules
+from src.Predict import PasswordInferenceEngine
+from src.Breach_Checker import ConcurrentBreachChecker
 
 # Ensure the application can discover modules inside the 'src' directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
