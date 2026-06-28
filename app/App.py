@@ -39,6 +39,10 @@ import sys
 import streamlit as st
 from pathlib import Path
 
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "password_model.pkl")
+
+model = pickle.load(open(MODEL_PATH, "rb"))
+
 # Fix: Dynamically set the path to the project root
 root_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(root_dir))
