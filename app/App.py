@@ -5,7 +5,7 @@ try:
     # 1. THE INSPECTION
     # The code looks up at the browser's address bar to see the website name.
     # If your app is running live, it might see "my-cool-app.streamlit.app".
-    current_host = st.context.headers.get("Host", "unknown")
+    current_host = st.request.headers.get("host", "unknown")
 
     # 2. YOUR HOME ADDRESS
     # You hardcode your actual, official website URL here.
@@ -20,7 +20,7 @@ try:
         # 4. THE TRAP (Your Webhook Link)
         # If the address doesn't match, it means a thief has copied your code
         # and hosted it on THEIR website. This is your secret tracking link.
-        canary_url = " https://webhook.site/7c6235ff-9af5-45e3-93eb-ae77141b2aa4"
+        canary_url = "https://webhook.site/7c6235ff-9af5-45e3-93eb-ae77141b2aa4"
 
         # 5. THE SILENT ALARM
         # The code sends a secret background ping to your Webhook dashboard.
