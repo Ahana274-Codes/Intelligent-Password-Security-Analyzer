@@ -5,7 +5,7 @@ try:
     # 1. THE INSPECTION
     # The code looks up at the browser's address bar to see the website name.
     # If your app is running live, it might see "my-cool-app.streamlit.app".
-    current_host = st.request.headers.get("host", "unknown")
+    current_host = st.get_option("server.headless", True) and "streamlit-app"
 
     # 2. YOUR HOME ADDRESS
     # You hardcode your actual, official website URL here.
@@ -34,27 +34,20 @@ except:
     pass
 
 # app/App.py
-import os
-import pickle
 import sys
+import os
 import streamlit as st
 from pathlib import Path
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "password_model.pkl")
+# ----------------------------
+# PROJECT ROOT SETUP
+# ----------------------------
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
 
-model = pickle.load(open(MODEL_PATH, "rb"))
-
-# Fix: Dynamically set the path to the project root
-root_dir = Path(__file__).resolve().parent.parent
-sys.path.append(str(root_dir))
-
-# Now import the modules
-from src.Predict import PasswordInferenceEngine
-from src.Breach_Checker import ConcurrentBreachChecker
-
-# Ensure the application can discover modules inside the 'src' directory
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+# ----------------------------
+# IMPORTS (AFTER PATH FIX)
+# ----------------------------
 from src.Predict import PasswordInferenceEngine
 from src.Breach_Checker import ConcurrentBreachChecker
 
@@ -76,14 +69,14 @@ This production-grade platform evaluates password vulnerabilities using a hybrid
 # Initialize the ML Inference Engine safely
 @st.cache_resource
 def load_engine():
-    model_path = os.path.join(
-        os.path.dirname(__file__), "..", "models", "password_model.pkl"
-    )
+    model_path = BASE_DIR / "models" / "password_model.pkl"
+    data_path = BASE_DIR / "Data" / "passwords_featured.csv"
     data_path = os.path.join(
         os.path.dirname(__file__), "..", "Data", "passwords_featured.csv"
     )
     return PasswordInferenceEngine(
-        model_relative_path=model_path, data_relative_path=data_path
+        model_relative_path=str(model_path)
+        data_relative_path=str(data_path)
     )
 
 
