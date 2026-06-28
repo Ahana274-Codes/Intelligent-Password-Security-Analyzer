@@ -35,6 +35,7 @@ except:
 
 # app/App.py
 import os
+import pickle
 import sys
 import streamlit as st
 from pathlib import Path
