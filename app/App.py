@@ -39,7 +39,7 @@ import sys
 import streamlit as st
 from pathlib import Path
 
-# Add the project root to sys.path so 'src' is discoverable
+# Fix: Dynamically set the path to the project root
 root_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(root_dir))
 
